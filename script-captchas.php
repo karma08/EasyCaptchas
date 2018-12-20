@@ -2,17 +2,28 @@
 
 /****************************************************************
 * CAPTCHA GENERATEUR IMAGE EN PHP
-* /!\ PAS DE RETOUR D'ERREUR SUR LA GÉNÉRATION
-* SCRIPT ALLEGÉ SANS OPTIMISATION POUR LA COMPRÉHENSION
+* /!\ PAS DE RETOUR D'ERREUR SUR LA G�N�RATION
+* SCRIPT ALLEG� SANS OPTIMISATION POUR LA COMPR�HENSION
 *****************************************************************/
+
+
+/**
+ * Activation des variables de session
+ */
+session_start();
+
+/**
+ * Utilisation des caract�res accentu�s
+ */
+
+header('Content-Type: text/html; charset=iso-8859-1');
+
 
 /****************************************************************
 * 1. PARAMETRAGE DES ATTRIBUTS VARIABLES
 *****************************************************************/
-session_start();
-
-/* CHAINE DE CARACTÈRE PARAMÈTRABLE
-* SUPPRESSION DE 1 & I POUR ÉVITER LA CONFUSION DE LECTURE */
+/* CHAINE DE CARACT�RE PARAM�TRABLE
+* SUPPRESSION DE 1 & I POUR �VITER LA CONFUSION DE LECTURE */
 $chaine = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
 
 /* CREATION de l'image par defaut en background */
@@ -23,8 +34,6 @@ $color = imagecolorallocate($image, 140, 0, 140);
 
 /* POLICE DES CARACTERES TRUETYPE */
 $font = 'Fonts/Cartoon.ttf';
-
-
 
 /****************************************************************
 * 2. FONCTIONS ET PROCEDURES
@@ -62,27 +71,20 @@ imagettftext($image, 28, -35, 55, 37, $color, $font, $char3);
 imagettftext($image, 28, 25, 100, 37, $color, $font, $char4);
 imagettftext($image, 28, -15, 120, 37, $color, $font, $char5);
 
-$code1=substr(str_shuffle($chaine),0,5);
-$_SESSION['code']=$code1;//on enregistre le code dans une session pour vérifier ensuite se qu'à entré le visiteur est identique
-$code="";//on initialise le code
-for($i=0;$i<=strlen($code1);$i++){
-    $code .=substr($code1,$i,1)." ";//on rajoute des espace entre chaque lettre ou chiffre pour faire plus aéré (notez le . devant = qui permettra d'ajouter un caractère après l'autre à $code)
-}
 /****************************************************************
 * 4. PROCEDURES DE GENERATION DYNAMIQUE DE L'IMAGE
 *****************************************************************/
 
-
-
 /* ENTETE HTTP A RENVOYER POUR LA GENERATION DE L'iMAGE */
 header('Content-Type: image/png');
 
-/* ENVOI DE L'IMAGE PNG GENERÉE AU NAVIGATEUR */
+/* ENVOI DE L'IMAGE PNG GENER�E AU NAVIGATEUR */
 imagepng($image);
 
-$_session ['code'];
-/* DESTRUCTION DE L'IMAGE LIBÉRATION DE MÉMOIRE */
+/* DESTRUCTION DE L'IMAGE LIB�RATION DE M�MOIRE */
 imagedestroy($image);
 
-
-?>
+/**
+ * On affecte une variable de session
+ */
+$_SESSION['code'] = $code;
